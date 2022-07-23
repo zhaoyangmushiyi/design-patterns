@@ -4,7 +4,6 @@ import com.mono.monochrome.di.BeanDefinition;
 import com.mono.monochrome.di.exception.NoSuchBeanDefinitionException;
 
 import java.lang.reflect.InvocationTargetException;
-import java.rmi.NoSuchObjectException;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 

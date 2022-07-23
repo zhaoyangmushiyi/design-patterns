@@ -1,4 +1,4 @@
-package com.mono.monochrome.bean;
+package com.mono.monochrome.di.bean;
 
 /**
  * @author monochrome

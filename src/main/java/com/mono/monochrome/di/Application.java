@@ -1,8 +1,7 @@
-package com.mono.monochrome;
+package com.mono.monochrome.di;
 
-import com.mono.monochrome.bean.RateLimiter;
-import com.mono.monochrome.bean.RedisCounter;
-import com.mono.monochrome.di.ApplicationContext;
+import com.mono.monochrome.di.bean.RateLimiter;
+import com.mono.monochrome.di.bean.RedisCounter;
 import com.mono.monochrome.di.impl.ClassPathXmlApplicationContext;
 
 /**
@@ -11,7 +10,7 @@ import com.mono.monochrome.di.impl.ClassPathXmlApplicationContext;
  */
 public class Application {
     public static void main(String[] args) {
-        ApplicationContext applicationContext = new ClassPathXmlApplicationContext("beans.xml");
+        ApplicationContext applicationContext = new ClassPathXmlApplicationContext("di/beans.xml");
         RedisCounter redisCounter = (RedisCounter) applicationContext.getBean("redisCounter");
         RateLimiter rateLimiter = (RateLimiter) applicationContext.getBean("rateLimiter");
         System.out.println(redisCounter);
