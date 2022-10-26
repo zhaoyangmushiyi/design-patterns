@@ -20,10 +20,9 @@ class RateLimiterTest {
 
     @Test
     void limit() {
-        boolean limit = rateLimiter.limit("app-1", "/v1/user");
-        assertThat(limit).isTrue();
-        for (int i = 0; i < 59; i++) {
-            rateLimiter.limit("app-1", "/v1/user");
+        for (int i = 0; i < 50; i++) {
+            boolean limit = rateLimiter.limit("app-1", "/v1/user");
+            assertThat(limit).isTrue();
         }
         boolean limit2 = rateLimiter.limit("app-1", "/v1/user");
         assertThat(limit2).isFalse();

@@ -1,15 +1,11 @@
 package com.monochrome.ratelimiter;
 
 import com.monochrome.ratelimiter.alg.RateLimitAlg;
-import com.monochrome.ratelimiter.rule.ApiLimit;
-import com.monochrome.ratelimiter.rule.RateLimitRule;
-import com.monochrome.ratelimiter.rule.RuleConfig;
+import com.monochrome.ratelimiter.rule.*;
+import com.monochrome.ratelimiter.rule.datasource.FileRuleConfigSource;
+import com.monochrome.ratelimiter.rule.datasource.RuleConfigSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.yaml.snakeyaml.Yaml;
-
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
@@ -24,25 +20,9 @@ public class RateLimiter {
     private RateLimitRule rule;
 
     public RateLimiter() {
-        // 将限流规则配置文件rate-limiter-rule.yaml中的内容读取到RuleConfig中
-        InputStream in = null;
-        RuleConfig ruleConfig = null;
-        try {
-            in = this.getClass().getResourceAsStream("/rate-limiter-rule.yaml");
-            if (in != null) {
-                Yaml yaml = new Yaml();
-                ruleConfig = yaml.loadAs(in, RuleConfig.class);
-            }
-        } finally {
-            if (in != null) {
-                try {
-                    in.close();
-                } catch (IOException e) {
-                    log.error("close file error:{}", e);
-                }
-            }
-        }
-
+        // 主要修改在这儿，调用RuleConfigSource类来实现配置加载，支持多种配置文件的读取
+        RuleConfigSource ruleConfigSource = new FileRuleConfigSource();
+        RuleConfig ruleConfig = ruleConfigSource.load();
         // 将限流规则构建成支持快速查找的数据结构RateLimitRule
         this.rule = new RateLimitRule(ruleConfig);
     }
