@@ -11,16 +11,16 @@ import org.apache.commons.lang3.StringUtils;
  * @author monochrome
  * @date 2022/10/27
  */
-public class DarkFeature {
+public class DarkFeature implements IDarkFeature{
 
     private String key;
-    private boolean enable;
+    private boolean enabled;
     private int percentage;
     private RangeSet<Long> rangeSet = TreeRangeSet.create();
 
     public DarkFeature(DarkRuleConfig.DarkFeatureConfig darkFeatureConfig) {
         this.key = darkFeatureConfig.getKey();
-        this.enable = darkFeatureConfig.isEnabled();
+        this.enabled = darkFeatureConfig.isEnabled();
         String darkRule = darkFeatureConfig.getRule().trim();
         parseDarkRule(darkRule);
     }
@@ -61,15 +61,18 @@ public class DarkFeature {
         }
     }
 
-    public boolean isEnable() {
-        return enable;
+    @Override
+    public boolean enabled() {
+        return enabled;
     }
 
+    @Override
     public boolean dark(String darkTarget) {
         long target = Long.parseLong(darkTarget);
         return this.dark(target);
     }
 
+    @Override
     public boolean dark(long darkTarget) {
         boolean selected = this.rangeSet.contains(darkTarget);
         if (selected) {

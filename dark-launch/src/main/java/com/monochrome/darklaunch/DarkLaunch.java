@@ -6,10 +6,7 @@ import com.monochrome.darklaunch.rule.datasource.DarkRuleConfigSource;
 import com.monochrome.darklaunch.rule.datasource.FileDarkRuleConfigSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.yaml.snakeyaml.Yaml;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -45,8 +42,12 @@ public class DarkLaunch {
         this(DEFAULT_RULE_UPDATE_TIME_INTERVAL);
     }
 
-    public DarkFeature getDarkFeature(String featureKey) {
-        DarkFeature darkFeature = this.rule.getDarkFeature(featureKey);
+    public void addProgrammedDarkFeature(String featureKey, IDarkFeature darkFeature) {
+        this.rule.addProgrammedDarkFeature(featureKey, darkFeature);
+    }
+
+    public IDarkFeature getDarkFeature(String featureKey) {
+        IDarkFeature darkFeature = this.rule.getDarkFeature(featureKey);
         return darkFeature;
     }
 }
